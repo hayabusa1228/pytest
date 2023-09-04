@@ -34,7 +34,7 @@ jobs:
         run: pip install pytest
       # pytest を実行する
       - name: Run Tests
-        run: pytest ./Currency/tests/test.py --cov=./slack_api_decorator --cov-report=xml
+        run: pytest ./Currency/tests/test.py 
       - name: Upload coverage to Codecov
         # 上記のstepsが全て完了した場合にcodecovへupload
         # 今回はpublic repositoryのためKEYは不要だが、privateなら必要なので注意

@@ -31,4 +31,4 @@ def test_plus_same():
   assert MoneyFactory.dollar(10) == sum
 
 def test_print():
-  print("OK5")
+  print("OK6")

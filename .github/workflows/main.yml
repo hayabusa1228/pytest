@@ -1,0 +1,60 @@
+# ここに設定した名前がActions上に表示される
+name: pytest
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  pytest:
+    name: Run tests with pytest
+    # 実行環境として `ubuntu-latest` という名前のものを選ぶ
+    runs-on: ubuntu-latest
+    # 複数の Python のバージョンでテストするために `strategy.matrix` を設定する
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8]
+    steps:
+      # リポジトリをチェックアウトする
+      # See: https://github.com/actions/checkout
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Python のランタイムをセットアップする
+      # バージョンは `strategy.matrix` に並べたものを指定する
+      # See: https://github.com/actions/setup-python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      # pytestをインストール
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+      # JUnit形式でpytestの結果を出力
+      - name: Run pytest
+        run: |
+          python -m pytest --junit-xml results/pytest.xml
+        continue-on-error: true
+      # テスト結果をアップロードする
+      - name: Upload results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test_results
+          path: results/*.xml
+      # テスト結果をダウンロードする
+      - name: Download results
+        uses: actions/download-artifact@v3
+        with:
+          name: test_results
+          path: artifacts
+
+      # テスト結果をGitHub上で表示する
+      - name: display results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        with:
+          files: artifacts/**/*.xml

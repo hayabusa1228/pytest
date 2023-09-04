@@ -29,3 +29,6 @@ def test_plus_same():
   Bank.add_rate("CHF", "USD", 2)
   sum = Bank.reduce(MoneyFactory.dollar(5),MoneyFactory.franc(10), "USD")
   assert MoneyFactory.dollar(10) == sum
+
+def test_print():
+  print("OK")

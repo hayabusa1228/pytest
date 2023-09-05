@@ -17,5 +17,9 @@ RUN curl -sSL https://install.python-poetry.org | python -
 # Poetryのパスの設定
 ENV PATH /root/.local/bin:$PATH
 
-# Poetryが仮想環境を生成しないようにする
-RUN poetry config virtualenvs.create false
+RUN mkdir /app
+COPY . ./app
+
+WORKDIR /app
+RUN ls
+RUN poetry install --no-interaction

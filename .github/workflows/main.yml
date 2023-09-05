@@ -29,12 +29,19 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
-      #pytest install
-      - name: install pytest
-        run: pip install pytest
+      #poetry install 
+      - name: install poetry
+        run: |
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - name: cd 
+        run: cd Currency
+      - name: Poetry Install Dependencies
+        run: |
+          poetry install --no-interaction
       # pytest を実行する
       - name: Run Tests
-        run: pytest ./Currency/tests/test.py 
+        run: poetry run pytest ./tests/test.py 
       - name: Upload coverage to Codecov
         # 上記のstepsが全て完了した場合にcodecovへupload
         # 今回はpublic repositoryのためKEYは不要だが、privateなら必要なので注意

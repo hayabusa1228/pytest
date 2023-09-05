@@ -20,16 +20,24 @@ def test_currency():
   assert "USD" == MoneyFactory.dollar(1).currency
   assert "CHF" == MoneyFactory.franc(1).currency
 
-def test_change():
+def test_exchange():
    five_doll = MoneyFactory.dollar(5)
    Bank.add_rate("USD", "CHF", 1/2)
    ten_franc = Bank.exchange(five_doll, "CHF")
    assert MoneyFactory.franc(10) == ten_franc
+   with pytest.raises(Exception) as e:
+      _ = Bank.exchange(five_doll,"JPY")
+  
+   assert str(e.value) == "please add rate info in advance"
+    
 
 def test_plus_same():
   Bank.add_rate("CHF", "USD", 2)
   sum = Bank.reduce(MoneyFactory.dollar(5),MoneyFactory.franc(10), "USD")
   assert MoneyFactory.dollar(10) == sum
+  sum = Bank.reduce(MoneyFactory.franc(10),MoneyFactory.franc(10), "USD")
+  assert MoneyFactory.dollar(10) == sum
+
 
 def test_print():
   print("OK")

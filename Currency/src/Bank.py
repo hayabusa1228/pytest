@@ -8,7 +8,7 @@ class Bank:
       if info[0:2] == [money.currency, to]:
         return Money(money.value/info[2], to)
     
-    raise ValueError(f'rate情報を追加してください。from:{money.currency} to:{to}')
+    raise ValueError(f'please add rate info in advance')
 
   @classmethod
   def add_rate(self,origin : str, to: str, rate: int):

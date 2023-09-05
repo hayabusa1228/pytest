@@ -21,5 +21,5 @@ RUN mkdir /app
 COPY . ./app
 
 WORKDIR /app
-RUN ls
+
 RUN poetry install --no-interaction

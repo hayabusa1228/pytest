@@ -23,6 +23,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       #ls
+      - name: ls
+        run: ls
       #cd 
       - name: cd 
         run: cd Currency

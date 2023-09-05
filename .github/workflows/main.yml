@@ -33,7 +33,7 @@ jobs:
       - name: install poetry
         run: |
           curl -sSL https://install.python-poetry.org | python -
-          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+          echo "$HOME/runner/.local/bin" >> $GITHUB_PATH
       - name: cd 
         run: cd Currency
       - name: Poetry Install Dependencies

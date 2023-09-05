@@ -31,13 +31,18 @@ jobs:
           python-version: ${{ matrix.python-version }}
       #poetry install 
       - name: install poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python -
-          echo "$HOME/runner/.local/bin" >> $GITHUB_PATH
+        uses: snok/install-poetry@v1
       - name: cd 
         run: cd Currency
+      - uses: actions/cache@v2
+        id: venv_cache
+        with:
+          path: .venv
+          key: venv-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
       - name: Poetry Install Dependencies
+        if: steps.venv_cache.outputs.cache-hit != 'true'
         run: |
+          poetry lock
           poetry install --no-interaction
       # pytest を実行する
       - name: Run Tests

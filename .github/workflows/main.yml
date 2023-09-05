@@ -22,17 +22,9 @@ jobs:
       # リポジトリをチェックアウトする
       - name: Checkout
         uses: actions/checkout@v2
-      #ls
-      - name: ls
-        run: ls
-      #cd 
-      - name: cd 
-        run: cd Currency
-      #pwd 
-      - name: pwd
-        run: pwd
       # pytest を実行する
       - name: Run Tests
+        working-directory: Currency
         run: |
           docker-compose up -d --build
           docker-compose exec -T test-app poetry run pytest tests/test.py

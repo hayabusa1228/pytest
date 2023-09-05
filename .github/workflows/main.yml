@@ -25,6 +25,9 @@ jobs:
       #ls
       #cd 
       - name: cd 
+        run: cd Currency
+      #pwd 
+      - name: pwd
         run: pwd
       # pytest を実行する
       - name: Run Tests

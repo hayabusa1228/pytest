@@ -22,31 +22,18 @@ jobs:
       # リポジトリをチェックアウトする
       - name: Checkout
         uses: actions/checkout@v2
-      # Python のランタイムをセットアップする
-      # バージョンは `strategy.matrix` に並べたものを指定する
-      # See: https://github.com/actions/setup-python
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
-      #poetry install 
-      - name: install poetry
-        uses: snok/install-poetry@v1
+      #ls
+      #cd 
       - name: cd 
-        run: cd Currency
-      - uses: actions/cache@v2
-        id: venv_cache
-        with:
-          path: .venv
-          key: venv-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
-      - name: Poetry Install Dependencies
-        if: steps.venv_cache.outputs.cache-hit != 'true'
         run: |
-          poetry lock
-          poetry install --no-interaction
+          ls
+          pwd
+          cd Currency
       # pytest を実行する
       - name: Run Tests
-        run: poetry run pytest ./tests/test.py 
+        run: |
+          docker-compose up -d --build
+          docker-compose exec -T test-app poetry run pytest tests/test.py
       - name: Upload coverage to Codecov
         # 上記のstepsが全て完了した場合にcodecovへupload
         # 今回はpublic repositoryのためKEYは不要だが、privateなら必要なので注意

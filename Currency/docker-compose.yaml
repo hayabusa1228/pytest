@@ -1,0 +1,10 @@
+version: '3'
+services:
+  test-app:
+    container_name: pytest
+    build: .
+    volumes:
+      - .:/app
+#    ports:
+#      - 8000:8000
+    tty: true # retain container up

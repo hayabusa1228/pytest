@@ -1,7 +1,8 @@
 import pytest
 import sys, os
 
-sys.path.append(os.path.join('..', 'src'))
+test_files_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'..', 'src')
+sys.path.append(test_files_path)
 from MoneyFactory import MoneyFactory
 from Bank import Bank
 
